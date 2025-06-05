@@ -52,7 +52,7 @@ class Naver:
                         break
                     take = str(input("아이디 확인을 원하는 댓글 번호를 입력해주세요\n빈칸 입력시 다음 페이지로 이동하거나 종료됩니다:"))
                     if take != "":
-                        sys.stdout.write(f'\r{req.json()["result"]["comments"]["items"][int(take)-1]["writer"]["nick"]} - {req.json()["result"]["comments"]["items"][int(take)-1]["writer"]["id"]}\n')
+                        sys.stdout.write(f'\r{req.json()["result"]["comments"]["items"][int(take)-1]["writer"]["nick"]} - {req.json()["result"]["comments"]["items"][int(take)-1]["writer"]["id"]} - {req.json()["result"]["comments"]["items"][i]["writer"]["memberKey"]}\n')
                         sys.stdout.flush()
                     else:
                         page = page + 1
@@ -74,12 +74,14 @@ class Naver:
                             sys.stdout.flush()
 
                         if f'{req.json()["result"]["comments"]["items"][i]["writer"]["nick"]} - {req.json()["result"]["comments"]["items"][i]["writer"]["id"]}' not in id_list:
-                            id_list.append(f'{req.json()["result"]["comments"]["items"][i]["writer"]["nick"]} - {req.json()["result"]["comments"]["items"][i]["writer"]["id"]}')
+                            id_list.append(f'{req.json()["result"]["comments"]["items"][i]["writer"]["nick"]} - {req.json()["result"]["comments"]["items"][i]["writer"]["id"]} - {req.json()["result"]["comments"]["items"][i]["writer"]["memberKey"]}')
                     if flop:
                         break
                     page = page + 1
-                for i in id_list:
-                    print(i)
+                if len(id_list) != 0:
+                    print("------댓글 작성자 정보------")
+                    for i in id_list:
+                        print(i)
 
         except Exception as E:
             sys.stdout.write(f'\r{E}\n문제가 발생했습니다.\n조회가 불가능한 게시글이거나\n잠시후 재시도 하시거나 문의 바랍니다.\n')
